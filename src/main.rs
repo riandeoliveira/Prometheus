@@ -1,34 +1,47 @@
 mod modules;
 
-use modules::answers;
-use modules::prompt;
-use modules::questions;
-use modules::terminal;
-use uuid::uuid;
+use modules::answers::Answers;
+use modules::choices::{Choice, Choices};
+use modules::prompt::Prompt;
+use modules::questions::{Question, Questions};
+use modules::terminal::Terminal;
 
 fn main() -> () {
-    let is_asking: bool = true;
+    let mut answers: Answers = Answers::init();
+    let questions: Questions = Questions::init();
+    let choices: Choices = Choices::init();
 
-    let mut current_question_id = uuid!("7d5b561e-3b79-4009-a289-e92de964e35b");
+    let is_asking: bool = true;
+    let mut same_directory: bool = false;
+
+    let mut current_question_id: &str = "7d5b561e";
 
     while is_asking {
-        terminal::clear();
+        Terminal::clear();
 
-        let question = questions::find_by_id(current_question_id).unwrap();
-        let answer: u8 = prompt::ask(question.label, question.options);
+        println!("Respostas: {:?}", answers.list);
 
-        let same_directory: bool = {
-            if question.id == uuid!("3a71c955-d924-46ca-92b5-16f1f2f80cb1") && answer == 1 {
-                true
+        let question: &Question = questions.find_by_id(current_question_id).unwrap();
+        let question_choices: Vec<&Choice> = choices.find_all_by_question_id(question.id).unwrap();
+
+        let answer: u8 = Prompt::ask(question.label, question_choices);
+
+        let selected_choice: &Choice = choices.find_unique(answer, question.id).unwrap();
+
+        answers.add(selected_choice.clone());
+
+        if selected_choice.value == 1 && selected_choice.question_id == "3a71c955" {
+            same_directory = true;
+        }
+
+        if current_question_id == "2bb6f34c" {
+            if same_directory {
+                current_question_id = "1a9bccfa"
             } else {
-                false
+                current_question_id = selected_choice.next_question_id;
             }
-        };
-
-        let selected_option = questions::find_option_by_id(question.id, answer).unwrap();
-
-        current_question_id = selected_option.next_question_id;
-
-        // TODO: Preciso descobrir uma forma de guardar as respostas!
+        } else {
+            current_question_id = selected_choice.next_question_id;
+        }
     }
 }

@@ -1,18 +1,18 @@
-#[derive(Default)]
-pub struct Answer {
-    pub same_directory: bool,
+use crate::modules::choices::Choice;
+
+#[derive(Debug)]
+pub struct Answers {
+    pub list: Vec<Choice>,
 }
 
-impl Answer {
-    pub fn new() -> Self {
-        Default::default()
+impl Answers {
+    pub fn init() -> Self {
+        let list: Vec<Choice> = vec![];
+
+        Self { list }
     }
 
-    pub fn get(self) -> () {
-        println!("{}", self.same_directory);
-    }
-
-    pub fn set(self, same_directory: bool) -> () {
-        Self { same_directory };
+    pub fn add(&mut self, choice: Choice) -> () {
+        self.list.push(choice);
     }
 }
