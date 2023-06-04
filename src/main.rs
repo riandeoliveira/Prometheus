@@ -7,6 +7,8 @@ use modules::questions::{Question, Questions};
 use modules::terminal::Terminal;
 
 fn main() -> () {
+    // Terminal::mkdir();
+
     let mut answers: Answers = Answers::init();
     let questions: Questions = Questions::init();
     let choices: Choices = Choices::init();

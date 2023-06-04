@@ -1,0 +1,16 @@
+@use "./colors" as *;
+
+@mixin animated-button-component {
+  $opacity: 80;
+  $button-color: #{$black}#{$opacity};
+
+  border-bottom: 3px solid $button-color;
+  border-right: 3px solid $button-color;
+
+  &:active {
+    border-bottom: none;
+    border-left: 3px solid $button-color;
+    border-right: none;
+    border-top: 3px solid $button-color;
+  }
+}

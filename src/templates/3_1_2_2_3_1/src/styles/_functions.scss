@@ -1,0 +1,30 @@
+@use "./animations" as *;
+@use "./colors" as *;
+
+@mixin focus($size: "small", $color-name: "#000000", $brightness: "light") {
+  $hex-color-opacity: 80;
+  $color: "";
+
+  @if $brightness == "dark" {
+    $color: $color-name;
+  }
+
+  @if $brightness == "light" {
+    $color: #{$color-name}#{$hex-color-opacity};
+  }
+
+  @if $size == "large" {
+    outline: 0;
+    transition: box-shadow 0.15s;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 4px $color;
+    }
+  }
+
+  @if $size == "small" {
+    &:focus-visible {
+      outline: 2px solid $color;
+    }
+  }
+}
