@@ -1,0 +1,56 @@
+{
+  "questoes": {
+	"que aplicacao voce ira desenvolver?": {
+		"backend": {},
+		"frontend": {},
+		"fullstack": {
+			"voce deseja utilizar o frontend e backend em pastas separadas?": {
+				"nao": {
+					"qual biblioteca/framework voce deseja utilizar no frontend?": {
+						"angular": {},
+						"react + nextjs": {
+							"qual forma de estilizacao voce deseja utilizar?": {
+								"css modules": {},
+								"sass modules": {},
+								"styled components": {},
+								"tailwindcss": {}
+							},
+							"qual gerenciador de estado voce deseja utilizar?": {
+								"context api": {},
+								"redux toolkit": {},
+								"zustand": {}
+							},
+							"qual solucao de backend voce prefere?": {
+								"firebase": {},
+								"nextjs api": {}
+							}
+						},
+						"svelte": {},
+						"vue": {}
+					}
+				},
+				"sim": {
+					"qual biblioteca/framework voce deseja utilizar no frontend?": {
+						"angular": {},
+						"react + nextjs": {
+							"qual forma de estilizacao voce deseja utilizar?": {
+								"css modules": {},
+								"sass modules": {},
+								"styled components": {},
+								"tailwindcss": {}
+							},
+							"qual gerenciador de estado voce deseja utilizar?": {
+								"context api": {},
+								"redux toolkit": {},
+								"zustand": {}
+							}
+						},
+						"svelte": {},
+						"vue": {}
+					}
+				}
+			}
+		}
+	}
+  }
+}
