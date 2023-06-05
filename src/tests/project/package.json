@@ -16,10 +16,9 @@
     "dev": "next dev",
     "eslint": "next lint",
     "format": "prettier --write --ignore-unknown .",
-    "lint": "npm run format & npm run stylelint & npm run eslint",
+    "lint": "npm run format & npm run eslint",
     "prebuild": "npm run lint",
-    "start": "next start",
-    "stylelint": "stylelint **/*.scss"
+    "start": "next start"
   },
   "dependencies": {
     "@svgr/webpack": "^7.0.0",
@@ -37,15 +36,14 @@
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.33",
     "@types/react-dom": "^18.0.11",
+    "@types/styled-components": "^5.1.26",
     "@types/uuid": "^9.0.1",
     "cypress": "^12.9.0",
     "eslint": "^8.37.0",
     "eslint-config-next": "^13.2.4",
     "eslint-plugin-cypress": "^2.13.2",
-    "postcss-scss": "^4.0.6",
     "prettier": "^2.8.7",
-    "sass": "^1.62.1",
-    "stylelint": "^15.6.1",
+    "styled-components": "^6.0.0-rc.3",
     "typescript": "^5.0.3"
   },
   "repository": {
@@ -57,7 +55,7 @@
     "javascript",
     "nextjs",
     "react",
-    "sass",
+    "styled-components",
     "typescript",
     "zustand"
   ]

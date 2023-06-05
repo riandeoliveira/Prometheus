@@ -1,7 +1,8 @@
+import { StyledComponentsRegistry } from "lib/registry";
 import type { AppProps } from "next/app";
 import { Roboto } from "next/font/google";
 import Head from "next/head";
-import "styles/_global.scss";
+import { GlobalStyle } from "styles/global";
 
 const roboto = Roboto({
   style: "normal",
@@ -16,7 +17,12 @@ const App = ({ Component, pageProps }: AppProps): JSX.Element => {
         <title>trocar</title>
       </Head>
       <div className={roboto.className}>
-        <Component {...pageProps} />
+        <StyledComponentsRegistry>
+          <>
+            <GlobalStyle />
+            <Component {...pageProps} />
+          </>
+        </StyledComponentsRegistry>
       </div>
     </>
   );

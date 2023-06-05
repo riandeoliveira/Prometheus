@@ -7,7 +7,7 @@ const Document = (): JSX.Element => {
         <meta name="description" content="<DESCRIPTION>" />
         <meta
           name="keywords"
-          content="firebase, javascript, nextjs, react, sass, typescript, zustand"
+          content="firebase, javascript, nextjs, react, styled-components, typescript, zustand"
         />
         <meta name="author" content="<AUTHOR>" />
         <meta name="theme-color" content="#ffffff" />

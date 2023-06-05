@@ -1,10 +1,10 @@
-@use "../styles" as *;
+import styled from "styled-components";
 
-.box {
+export const Box = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
   gap: 16px;
   justify-content: center;
   min-height: 100vh;
-}
+`;
