@@ -7,7 +7,7 @@ export const Greetings = (): JSX.Element => {
 
   return (
     <>
-      <S.Title>💫 Hello, trocar! 💫</S.Title>
+      <S.Title>💫 Hello, <AUTHOR>! 💫</S.Title>
       <S.Subtitle>
         You chose the awesome stack: <br /> React + NextJS + Styled Components +
         Zustand + Firebase
