@@ -16,7 +16,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: linear-gradient(-45deg, ${theme.colors.complementary});
+    background-image: linear-gradient(-45deg, ${theme.colors.complementary});
     background-size: 400% 400%;
     height: 100vh;
 

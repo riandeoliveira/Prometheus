@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "homepage": "<PROJECT_URL>",
-  "main": "src/pages/_app.tsx",
+  "main": "src/app/layout.tsx",
   "author": {
     "name": "<AUTHOR>",
     "email": "<EMAIL>"
