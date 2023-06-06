@@ -10,7 +10,7 @@ export const GET = (): NextResponse<Data> => {
   return NextResponse.json({
     title: "Hello, <AUTHOR>!",
     message:
-      "You chose the awesome stack: React + NextJS + SASS + Zustand + Firebase",
+      "You chose the awesome stack: React + NextJS + SASS Modules + Zustand + Firebase",
     info: "Have a nice coding!",
   });
 };
