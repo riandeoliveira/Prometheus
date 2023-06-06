@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-// FIXME: O Next reconhece o arquivo styles.ts como uma página. Se privar arquivos .ts ele descarta rota /api também. CORRIGIR ISSO !!!
-
 const nextConfig = {
   compiler: {
     styledComponents: true,

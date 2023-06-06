@@ -8,7 +8,10 @@ export const Greetings = (): JSX.Element => {
   return (
     <>
       <h1 className={styles.title}>💫 Hello, <AUTHOR>! 💫</h1>
-      <h2 className={styles.subtitle}>You chose the awesome stack: <br/> React + NextJS + SASS Modules + Zustand + Firebase</h2>
+      <h2 className={styles.subtitle}>
+        You chose the awesome stack: <br /> React + NextJS + SASS Modules +
+        Zustand + Firebase
+      </h2>
       <h2 className={styles.subtitle}>🚀 Have a nice coding 🚀</h2>
       <button
         type="button"

@@ -31,6 +31,7 @@
     "noResolve": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "plugins": [{ "name": "next" }],
     "preserveValueImports": false,
     "pretty": true,
     "removeComments": true,
@@ -43,5 +44,5 @@
     "target": "ESNext"
   },
   "exclude": ["build", "dist", "node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"]
 }

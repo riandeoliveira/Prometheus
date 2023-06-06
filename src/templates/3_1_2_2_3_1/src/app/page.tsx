@@ -1,3 +1,5 @@
+"use client";
+
 import { Greetings } from "components/Greetings";
 import type { NextPage } from "next";
 import { ProtectedRoute } from "routes/ProtectedRoute";
