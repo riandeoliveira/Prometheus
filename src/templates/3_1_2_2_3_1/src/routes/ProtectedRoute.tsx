@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 // import { useUserStore } from "store/useUserStore";
-// import type { UserState } from "types/user";
+// import type { State } from "types/state";
 
 type ProtectedRouteProps = {
   children: JSX.Element;
@@ -9,7 +9,7 @@ type ProtectedRouteProps = {
 export const ProtectedRoute = ({
   children,
 }: ProtectedRouteProps): JSX.Element => {
-  // const userStore: UserState = useUserStore();
+  // const userStore: State.User = useUserStore();
 
   useEffect(() => {
     // userStore.verifyAuth();
