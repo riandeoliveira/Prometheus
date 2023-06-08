@@ -1,4 +1,4 @@
-<% if (data.stateManagement === "context_api") { -%>
+<% if (data.stateManagement === "Context API") { -%>
 // import { UserContext } from "contexts/UserContext";
 import { useContext, useEffect } from "react";
 // import type { State } from "types/state";
@@ -19,7 +19,7 @@ export const ProtectedRoute = ({
   return <>{children}</>;
 };
 <% } -%>
-<% if (data.stateManagement === "zustand") { -%>
+<% if (data.stateManagement === "Zustand") { -%>
 import { useEffect } from "react";
 // import { useUserStore } from "store/useUserStore";
 // import type { State } from "types/state";

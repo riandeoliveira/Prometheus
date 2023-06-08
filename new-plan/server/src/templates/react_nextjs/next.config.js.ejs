@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+<% if (data.style === "Styled Components") { -%>
+  compiler: {
+    styledComponents: true,
+  },
+  pageExtensions: ["tsx", "ts"],
+<% } -%>
   reactStrictMode: true,
   webpack(config) {
     config.module.rules.push({
