@@ -1,0 +1,46 @@
+[
+  {
+    "origin": ".github/.gitkeep.ejs",
+    "target": ".github/.gitkeep"
+  },
+  {
+    "origin": ".editorconfig.ejs",
+    "target": ".editorconfig"
+  },
+  {
+    "origin": ".eslintignore.ejs",
+    "target": ".eslintignore"
+  },
+  {
+    "origin": ".eslintrc.json.ejs",
+    "target": ".eslintrc.json"
+  },
+  {
+    "origin": ".prettierignore.ejs",
+    "target": ".prettierignore"
+  },
+  {
+    "origin": ".prettierrc.json.ejs",
+    "target": ".prettierrc.json"
+  },
+  {
+    "origin": "cypress.config.ts.ejs",
+    "target": "cypress.config.ts"
+  },
+  {
+    "origin": "LICENSE.ejs",
+    "target": "LICENSE"
+  },
+  {
+    "origin": "next.config.js.ejs",
+    "target": "next.config.js"
+  },
+  {
+    "origin": "README.md.ejs",
+    "target": "README.md"
+  },
+  {
+    "origin": "tsconfig.json.ejs",
+    "target": "tsconfig.json"
+  }
+]
