@@ -1,21 +1,33 @@
 import { Request, Response } from "express";
+import { TemplateRepository } from "../repositories/TemplateRepository";
 import { TemplateService } from "../services/TemplateService";
 
 class GenerationController {
   public generate = async (request: Request, response: Response) => {
-    const templateService: TemplateService = new TemplateService();
+    const timestamp: number = Date.now();
+
+    const templateRepository: TemplateRepository = new TemplateRepository();
+
+    const templateService: TemplateService = new TemplateService(
+      "./src/templates/react_nextjs",
+      `./public/${timestamp}`,
+      templateRepository
+    );
+
+    // TODO: incluir o arquivo env.d.ts.ejs somente se o backend for firebase
 
     try {
-      // templateService.copyToPublicDirectory("./src/templates/react_nextjs");
+      templateService.copyToPublicDirectory();
 
-      // const templateFileList: string[] = await templateService.findAll();
+      await templateService.setFileList();
 
-      // templateService.renderFileList(templateFileList);
-      // templateService.zip();
+      templateService.renderFileList();
 
-      // const zipDirectoryPath: string = `${templateService.destinationPath}.zip`;
+      const zipDirectoryPath = await templateService.zip();
 
-      return response.download("./teste.zip");
+      console.log(zipDirectoryPath);
+
+      return response.download(zipDirectoryPath);
     } catch (error: unknown) {
       return response.json(error);
     }

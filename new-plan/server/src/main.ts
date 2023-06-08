@@ -1,3 +1,4 @@
+import cors from "cors";
 import express, { Express } from "express";
 import { generationController } from "./controllers/GenerationController";
 import { validateSchema } from "./middlewares/validate-schema";
@@ -5,6 +6,7 @@ import { generationSchema } from "./schemas/generation-schema";
 
 const app: Express = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.post(
