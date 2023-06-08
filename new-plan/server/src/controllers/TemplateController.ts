@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { TemplateRepository } from "../repositories/TemplateRepository";
 import { TemplateService } from "../services/TemplateService";
 
-class GenerationController {
+class TemplateController {
   public generate = async (request: Request, response: Response) => {
     const timestamp: number = Date.now();
 
@@ -14,18 +14,14 @@ class GenerationController {
       templateRepository
     );
 
-    // TODO: incluir o arquivo env.d.ts.ejs somente se o backend for firebase
-
     try {
       templateService.copyToPublicDirectory();
 
-      await templateService.setFileList();
+      await templateService.setPathList();
 
       templateService.renderFileList();
 
-      const zipDirectoryPath = await templateService.zip();
-
-      console.log(zipDirectoryPath);
+      const zipDirectoryPath: string = await templateService.zip();
 
       return response.download(zipDirectoryPath);
     } catch (error: unknown) {
@@ -34,5 +30,4 @@ class GenerationController {
   };
 }
 
-export const generationController: GenerationController =
-  new GenerationController();
+export const templateController: TemplateController = new TemplateController();

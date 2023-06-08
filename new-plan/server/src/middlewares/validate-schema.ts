@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { GenerationSchema } from "../schemas/generation-schema";
+import { TemplateSchema } from "../schemas/template-schema";
 
 export const validateSchema =
-  (schema: GenerationSchema) =>
+  (schema: TemplateSchema) =>
   (request: Request, response: Response, next: NextFunction) => {
     try {
       schema.parse(request.body);

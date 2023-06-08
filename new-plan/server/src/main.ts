@@ -1,8 +1,8 @@
 import cors from "cors";
 import express, { Express } from "express";
-import { generationController } from "./controllers/GenerationController";
+import { templateController } from "./controllers/TemplateController";
 import { validateSchema } from "./middlewares/validate-schema";
-import { generationSchema } from "./schemas/generation-schema";
+import { templateSchema } from "./schemas/template-schema";
 
 const app: Express = express();
 
@@ -11,12 +11,16 @@ app.use(express.json());
 
 app.post(
   "/api/generate",
-  validateSchema(generationSchema),
-  generationController.generate
+  validateSchema(templateSchema),
+  templateController.generate
 );
 
 app.get("/", (req, res) => {
-  res.download("./src/teste-arquivo.txt");
+  console.log("alkdhkjlasd");
+
+  res.json({ message: "hello" });
 });
 
-app.listen(8000);
+app.listen(8000, () => {
+  console.log("Server running!");
+});
