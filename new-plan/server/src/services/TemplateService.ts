@@ -35,10 +35,34 @@ export class TemplateService {
     });
   };
 
-  public setFileList = async (): Promise<void> => {
-    const pattern: string = `${this.target}/**/*.ejs`;
+  public setPathList = async (): Promise<void> => {
+    const directoriesPattern: string = `${this.target}/**`;
+    const filesPattern: string = `${this.target}/**/*.ejs`;
 
-    this.pathList = await glob(pattern, { dot: true });
+    const directoriesPathList: string[] = await glob(directoriesPattern, {
+      dot: true,
+    });
+    const filesPathList: string[] = await glob(filesPattern, { dot: true });
+
+    this.pathList = filesPathList.filter((path) => {
+      const ignoredFiles: string[] = this.templateRepository.ignoredFiles;
+
+      const fileName: string = basename(path);
+      const isNotIgnoredFile: boolean = !ignoredFiles.includes(fileName);
+
+      if (isNotIgnoredFile) return path;
+      else fs.unlinkSync(path);
+    });
+
+    directoriesPathList.filter((path) => {
+      fs.stat(path, (_, stats) => {
+        if (stats?.isDirectory()) {
+          if (fs.readdirSync(path).length === 0) {
+            fs.rmdirSync(path);
+          }
+        }
+      });
+    });
   };
 
   public zip = (): Promise<string> => {
@@ -60,24 +84,5 @@ export class TemplateService {
 
       archive.finalize();
     });
-  };
-
-  public sla = () => {
-    console.clear();
-
-    const data = {
-      backend: "firebase",
-    };
-
-    const ignoredFiles = ["env.d.ts.ejs"];
-
-    const nsei = this.pathList.filter((path) => {
-      const file: string = basename(path);
-      const isIgnoredFile: boolean = !ignoredFiles.includes(file);
-
-      if (isIgnoredFile) return path;
-    });
-
-    console.log(nsei);
   };
 }
