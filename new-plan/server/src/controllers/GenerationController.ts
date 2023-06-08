@@ -6,13 +6,16 @@ class GenerationController {
     const templateService: TemplateService = new TemplateService();
 
     try {
-      templateService.copyToPublicDirectory("./src/templates/react_nextjs");
+      // templateService.copyToPublicDirectory("./src/templates/react_nextjs");
 
-      const templateFileList: string[] = await templateService.findAll();
+      // const templateFileList: string[] = await templateService.findAll();
 
-      templateService.renderFileList(templateFileList);
+      // templateService.renderFileList(templateFileList);
+      // templateService.zip();
 
-      return response.json({});
+      // const zipDirectoryPath: string = `${templateService.destinationPath}.zip`;
+
+      return response.download("./teste.zip");
     } catch (error: unknown) {
       return response.json(error);
     }
