@@ -1,0 +1,74 @@
+<% if (data.stateManagement === "Context API") { -%>
+import { CounterContext } from "contexts/CounterContext";
+import { useContext } from "react";
+<% } -%>
+<% if (data.stateManagement === "Zustand") { -%>
+import { useCounterStore } from "store/useCounterStore";
+<% } -%>
+import { State } from "types/state";
+<% if (data.style === "CSS Modules") { -%>
+import styles from "./styles.module.css";
+<% } -%>
+<% if (data.style === "SASS Modules") { -%>
+import styles from "./styles.module.scss";
+<% } -%>
+<% if (data.style === "CSS Modules") { -%>
+import * as S from "./styles";
+<% } -%>
+
+export const Greetings = (): JSX.Element => {
+<% if (data.stateManagement === "Context API") { -%>
+  const counterStore: State.Counter = useContext(CounterContext);
+<% } -%>
+<% if (data.stateManagement === "Zustand") { -%>
+  const counterStore: State.Counter = useCounterStore();
+<% } -%>
+
+  return (
+    <>
+<% if (data.style === "Styled Components") { -%>
+      <S.Title>💫 Hello, <%= data.author %>! 💫</S.Title>
+      <S.Subtitle>
+        You chose the awesome stack: <br /> React + NextJS + <%= data.style %> +
+        <%= data.stateManagement %> + <%= data.backend>
+      </S.Subtitle>
+      <S.Subtitle>🚀 Have a nice coding 🚀</S.Subtitle>
+      <S.Button type="button" onClick={counterStore.increment}>
+        Click me! {counterStore.value}
+      </S.Button>
+<% } else if (data.style === "TailwindCSS") { -%>
+      <h1 className="text-[32px] font-semibold text-center">
+        💫 Hello, <%= data.author %>! 💫
+      </h1>
+      <h2 className="text-2xl font-normal text-center">
+        You chose the awesome stack: <br /> React + NextJS + <%= data.style %> +
+        <%= data.stateManagement %> + <%= data.backend>
+      </h2>
+      <h2 className="text-2xl font-normal text-center">
+        🚀 Have a nice coding 🚀
+      </h2>
+      <button
+        type="button"
+        onClick={counterStore.increment}
+        className="bg-primary-500 rounded-md text-white cursor-pointer font-medium p-2 animated-btn"
+      >
+        Click me! {counterStore.value}
+      </button>
+<% } else { -%>
+      <h1 className={styles.title}>💫 Hello, <%= data.author %>! 💫</h1>
+      <h2 className={styles.subtitle}>
+        You chose the awesome stack: <br /> React + NextJS + <%= data.style %> +
+        <%= data.stateManagement %> + <%= data.backend>
+      </h2>
+      <h2 className={styles.subtitle}>🚀 Have a nice coding 🚀</h2>
+      <button
+        type="button"
+        onClick={counterStore.increment}
+        className={styles.button}
+      >
+        Click me! {counterStore.value}
+      </button>
+<% } -%>
+    </>
+  );
+};
