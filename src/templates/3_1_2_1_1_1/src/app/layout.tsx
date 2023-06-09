@@ -34,13 +34,15 @@ const roboto = Roboto({
 
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
-    <UserContextProvider>
-      <CounterContextProvider>
-        <html lang="pt-br">
-          <body className={roboto.className}>{children}</body>
-        </html>
-      </CounterContextProvider>
-    </UserContextProvider>
+    <html lang="pt-br">
+      <body className={roboto.className}>
+        <UserContextProvider>
+          <CounterContextProvider>
+            {children}
+          </CounterContextProvider>
+        </UserContextProvider>
+      </body>
+    </html>
   );
 };
 
