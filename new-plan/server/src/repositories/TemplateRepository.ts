@@ -17,6 +17,7 @@ interface ITemplateData {
 
 interface ITemplateRepository {
   data: ITemplateData;
+  ignoredFiles: string[];
 }
 
 export class TemplateRepository implements ITemplateRepository {
