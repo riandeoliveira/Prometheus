@@ -45,8 +45,8 @@ export class TemplateRepository implements ITemplateRepository {
       language: "pt-BR",
       lowerCaseProjectName: "binance_app",
       projectName: "BinanceAPP",
-      stateManagement: "Redux Toolkit",
-      style: "Styled Components",
+      stateManagement: "Zustand",
+      style: "SASS Modules",
       technologies: [
         "css",
         "firebase",
