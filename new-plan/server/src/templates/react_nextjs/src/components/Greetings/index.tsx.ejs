@@ -2,6 +2,9 @@
 import { CounterContext } from "contexts/CounterContext";
 import { useContext } from "react";
 <% } -%>
+<% if (data.stateManagement === "Redux Toolkit") { -%>
+import { useCounter } from "hooks/useCounter";
+<% } -%>
 <% if (data.stateManagement === "Zustand") { -%>
 import { useCounterStore } from "store/useCounterStore";
 <% } -%>
@@ -19,6 +22,9 @@ import * as S from "./styles";
 export const Greetings = (): JSX.Element => {
 <% if (data.stateManagement === "Context API") { -%>
   const counterStore: State.Counter = useContext(CounterContext);
+<% } -%>
+<% if (data.stateManagement === "Redux Toolkit") { -%>
+  const counterStore: State.Counter = useCounter();
 <% } -%>
 <% if (data.stateManagement === "Zustand") { -%>
   const counterStore: State.Counter = useCounterStore();

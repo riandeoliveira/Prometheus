@@ -44,8 +44,8 @@ export class TemplateRepository implements ITemplateRepository {
       language: "pt-BR",
       lowerCaseProjectName: "binance_app",
       projectName: "BinanceAPP",
-      stateManagement: "Context API",
-      style: "SASS Modules",
+      stateManagement: "Redux Toolkit",
+      style: "Styled Components",
       technologies: [
         "css",
         "firebase",
@@ -71,6 +71,16 @@ export class TemplateRepository implements ITemplateRepository {
     if (this.data.stateManagement !== "Zustand") {
       this.ignoredFiles.push("useCounterStore.ts.ejs");
       this.ignoredFiles.push("useUserStore.ts.ejs");
+    }
+
+    if (this.data.stateManagement !== "Redux Toolkit") {
+      this.ignoredFiles.push("redux.d.ts.ejs");
+      this.ignoredFiles.push("StoreProvider.tsx.ejs");
+      this.ignoredFiles.push("counterSlice.ts.ejs");
+      this.ignoredFiles.push("userSlice.ts.ejs");
+      this.ignoredFiles.push("useCounter.ts.ejs");
+      this.ignoredFiles.push("useUser.ts.ejs");
+      this.ignoredFiles.push("index.ts.ejs");
     }
 
     if (this.data.backend !== "Firebase") {
@@ -112,6 +122,11 @@ export class TemplateRepository implements ITemplateRepository {
       this.ignoredFiles.push("postcss.config.js.ejs");
       this.ignoredFiles.push("tailwind.config.js.ejs");
       this.ignoredFiles.push("globals.css.ejs");
+      this.ignoredFiles.push("Greetings.tsx.ejs");
+    }
+
+    if (this.data.style === "TailwindCSS") {
+      this.ignoredFiles.push("index.tsx.ejs");
     }
   };
 }

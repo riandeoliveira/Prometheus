@@ -26,6 +26,9 @@
 <% } -%>
   },
   "dependencies": {
+<% if (data.stateManagement === "Redux Toolkit") { -%>
+    "@reduxjs/toolkit": "^1.9.5",
+<% } -%>
     "@svgr/webpack": "^8.0.1",
     "axios": "^1.4.0",
 <% if (data.backend === "Firebase") { -%>
@@ -35,6 +38,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.9.0",
+<% if (data.stateManagement === "Redux Toolkit") { -%>
+    "react-redux": "^8.0.7",
+<% } -%>
     "sharp": "^0.32.1",
 <% if (data.stateManagement === "Zustand") { -%>
     "uuid": "^9.0.0",

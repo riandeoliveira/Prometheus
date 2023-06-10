@@ -7,6 +7,9 @@ import { StyledComponentsRegistry } from "lib/registry";
 <% } -%>
 import { Metadata } from "next";
 import { Roboto } from "next/font/google";
+<% if (data.stateManagement === "Redux Toolkit") { -%>
+import { StoreProvider } from "providers/StoreProvider";
+<% } -%>
 import { ReactNode } from "react";
 <% if (data.style === "CSS Modules") { -%>
 import "styles/global.css";
@@ -66,6 +69,21 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
     </html>
   );
 };
+<% } else if (data.stateManagement === "Redux Toolkit" && data.style === "Styled Components") { -%>
+const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
+  return (
+    <html lang="<%= data.language %>">
+      <StyledComponentsRegistry>
+        <GlobalStyle />
+        <body className={roboto.className}>
+          <StoreProvider>
+            {children}
+          </StoreProvider>
+        </body>
+      </StyledComponentsRegistry>
+    </html>
+  );
+};
 <% } else if (data.stateManagement === "Context API") { -%>
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
@@ -76,6 +94,18 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
             {children}
           </CounterContextProvider>
         {/* </UserContextProvider> */}
+      </body>
+    </html>
+  );
+};
+<% } else if (data.stateManagement === "Redux Toolkit") { -%>
+const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
+  return (
+    <html lang="<%= data.language %>">
+      <body className={<% if (data.style === "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
+        <StoreProvider>
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );

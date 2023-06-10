@@ -19,6 +19,28 @@ export const ProtectedRoute = ({
   return <>{children}</>;
 };
 <% } -%>
+<% if (data.stateManagement === "Redux Toolkit") { -%>
+// import { useUser } from "hooks/useUser";
+import { useEffect } from "react";
+// import { State } from "types/state";
+
+type ProtectedRouteProps = {
+  children: JSX.Element;
+};
+
+export const ProtectedRoute = ({
+  children,
+}: ProtectedRouteProps): JSX.Element => {
+  // const userStore: State.User = useUser();
+
+  useEffect(() => {
+    // userStore.verifyAuth();
+  }, []);
+
+  return <>{children}</>;
+};
+
+<% } -%>
 <% if (data.stateManagement === "Zustand") { -%>
 import { useEffect } from "react";
 // import { useUserStore } from "store/useUserStore";
