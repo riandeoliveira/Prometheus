@@ -1,6 +1,6 @@
 <% if (data.stateManagement === "Context API") { -%>
 import { CounterContextProvider } from "contexts/CounterContext";
-import { UserContextProvider } from "contexts/UserContext";
+// import { UserContextProvider } from "contexts/UserContext";
 <% } -%>
 <% if (data.style === "Styled Components") { -%>
 import { StyledComponentsRegistry } from "lib/registry";
@@ -56,11 +56,11 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
       <StyledComponentsRegistry>
         <GlobalStyle />
         <body className={roboto.className}>
-          <UserContextProvider>
+          {/* <UserContextProvider> */}
             <CounterContextProvider>
               {children}
             </CounterContextProvider>
-          </UserContextProvider>
+          {/* </UserContextProvider> */}
         </body>
       </StyledComponentsRegistry>
     </html>
@@ -71,11 +71,11 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
     <html lang="<%= data.language %>">
       <body className={<% if (data.style === "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
-        <UserContextProvider>
+        {/* <UserContextProvider> */}
           <CounterContextProvider>
             {children}
           </CounterContextProvider>
-        </UserContextProvider>
+        {/* </UserContextProvider> */}
       </body>
     </html>
   );

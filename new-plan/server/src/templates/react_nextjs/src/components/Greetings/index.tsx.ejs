@@ -12,7 +12,7 @@ import styles from "./styles.module.css";
 <% if (data.style === "SASS Modules") { -%>
 import styles from "./styles.module.scss";
 <% } -%>
-<% if (data.style === "CSS Modules") { -%>
+<% if (data.style === "Styled Components") { -%>
 import * as S from "./styles";
 <% } -%>
 
@@ -30,7 +30,7 @@ export const Greetings = (): JSX.Element => {
       <S.Title>💫 Hello, <%= data.author %>! 💫</S.Title>
       <S.Subtitle>
         You chose the awesome stack: <br /> React + NextJS + <%= data.style %> +
-        <%= data.stateManagement %> + <%= data.backend>
+        <%= data.stateManagement %> + <%= data.backend %>
       </S.Subtitle>
       <S.Subtitle>🚀 Have a nice coding 🚀</S.Subtitle>
       <S.Button type="button" onClick={counterStore.increment}>
@@ -58,7 +58,7 @@ export const Greetings = (): JSX.Element => {
       <h1 className={styles.title}>💫 Hello, <%= data.author %>! 💫</h1>
       <h2 className={styles.subtitle}>
         You chose the awesome stack: <br /> React + NextJS + <%= data.style %> +
-        <%= data.stateManagement %> + <%= data.backend>
+        <%= data.stateManagement %> + <%= data.backend %>
       </h2>
       <h2 className={styles.subtitle}>🚀 Have a nice coding 🚀</h2>
       <button
