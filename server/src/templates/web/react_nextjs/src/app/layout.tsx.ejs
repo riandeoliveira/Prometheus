@@ -1,26 +1,26 @@
-<% if (data.stateManagement === "Context API") { -%>
+<% if (data.stack.frontend.stateManagement === "Context API") { -%>
 import { CounterContextProvider } from "contexts/CounterContext";
 // import { UserContextProvider } from "contexts/UserContext";
 <% } -%>
-<% if (data.style === "Styled Components") { -%>
+<% if (data.stack.frontend.styling === "Styled Components") { -%>
 import { StyledComponentsRegistry } from "lib/registry";
 <% } -%>
 import { Metadata } from "next";
 import { Roboto } from "next/font/google";
-<% if (data.stateManagement === "Redux Toolkit") { -%>
+<% if (data.stack.frontend.stateManagement === "Redux Toolkit") { -%>
 import { StoreProvider } from "providers/StoreProvider";
 <% } -%>
 import { ReactNode } from "react";
-<% if (data.style === "CSS Modules") { -%>
+<% if (data.stack.frontend.styling === "CSS Modules") { -%>
 import "styles/global.css";
 <% } -%>
-<% if (data.style === "SASS Modules") { -%>
+<% if (data.stack.frontend.styling === "SASS Modules") { -%>
 import "styles/_global.scss";
 <% } -%>
-<% if (data.style === "Styled Components") { -%>
+<% if (data.stack.frontend.styling === "Styled Components") { -%>
 import { GlobalStyle } from "styles/global";
 <% } -%>
-<% if (data.style === "TailwindCSS") { -%>
+<% if (data.stack.frontend.styling === "TailwindCSS") { -%>
 import "styles/globals.css";
 <% } -%>
 
@@ -29,12 +29,12 @@ type RootLayoutProps = {
 };
 
 export const metadata: Metadata = {
-  authors: [{ name: "<%= data.author %>", url: "https://github.com/<%= data.githubUsername %>" }],
-  description: "<%= data.description %>",
+  authors: [{ name: "<%= data.author.name %>", url: "https://github.com/<%= data.author.githubUsername %>" }],
+  description: "<%= data.project.description %>",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
   keywords: [
-<% data.keywords.forEach((keyword) => { -%>
-<% const isLastElement = data.keywords.indexOf(keyword) === data.keywords.length - 1; -%>
+<% data.project.keywords.forEach((keyword, index) => { -%>
+<% const isLastElement = index === data.project.keywords.length - 1; -%>
 <% if (isLastElement) { -%>
     "<%= keyword %>"
 <% } else { -%>
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
 <% }); -%>
   ],
   themeColor: [{ color: "#ffffff", media: "(prefers-color-scheme: dark)" }],
-  title: "<%= data.projectName %>",
+  title: "<%= data.project.name %>",
 };
 
 const roboto = Roboto({
@@ -52,10 +52,10 @@ const roboto = Roboto({
   weight: ["100", "300", "400", "500", "700", "900"],
 });
 
-<% if (data.stateManagement === "Context API" && data.style === "Styled Components") { -%>
+<% if (data.stack.frontend.stateManagement === "Context API" && data.stack.frontend.styling === "Styled Components") { -%>
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
-    <html lang="<%= data.language %>">
+    <html lang="<%= data.author.language %>">
       <StyledComponentsRegistry>
         <GlobalStyle />
         <body className={roboto.className}>
@@ -69,10 +69,10 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
     </html>
   );
 };
-<% } else if (data.stateManagement === "Redux Toolkit" && data.style === "Styled Components") { -%>
+<% } else if (data.stack.frontend.stateManagement === "Redux Toolkit" && data.stack.frontend.styling === "Styled Components") { -%>
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
-    <html lang="<%= data.language %>">
+    <html lang="<%= data.author.language %>">
       <StyledComponentsRegistry>
         <GlobalStyle />
         <body className={roboto.className}>
@@ -84,11 +84,11 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
     </html>
   );
 };
-<% } else if (data.stateManagement === "Context API") { -%>
+<% } else if (data.stack.frontend.stateManagement === "Context API") { -%>
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
-    <html lang="<%= data.language %>">
-      <body className={<% if (data.style === "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
+    <html lang="<%= data.author.language %>">
+      <body className={<% if (data.stack.frontend.styling === "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
         {/* <UserContextProvider> */}
           <CounterContextProvider>
             {children}
@@ -98,11 +98,11 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
     </html>
   );
 };
-<% } else if (data.stateManagement === "Redux Toolkit") { -%>
+<% } else if (data.stack.frontend.stateManagement === "Redux Toolkit") { -%>
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
-    <html lang="<%= data.language %>">
-      <body className={<% if (data.style === "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
+    <html lang="<%= data.author.language %>">
+      <body className={<% if (data.stack.frontend.styling === "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
         <StoreProvider>
           {children}
         </StoreProvider>
@@ -110,10 +110,10 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
     </html>
   );
 };
-<% } else if (data.style === "Styled Components") { -%>
+<% } else if (data.stack.frontend.styling === "Styled Components") { -%>
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
-    <html lang="<%= data.language %>">
+    <html lang="<%= data.author.language %>">
       <StyledComponentsRegistry>
         <GlobalStyle />
         <body className={roboto.className}>{children}</body>
@@ -124,8 +124,8 @@ const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
 <% } else { -%>
 const RootLayout = ({ children }: RootLayoutProps): JSX.Element => {
   return (
-    <html lang="<%= data.language %>">
-      <body className={<% if (data.style === "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
+    <html lang="<%= data.author.language %>">
+      <body className={<% if (data.stack.frontend.styling== "TailwindCSS") { -%>`${roboto.className} min-h-screen animate-gradient bg-colorful bg-400`<% } else { -%>roboto.className<% } -%>}>
         {children}
       </body>
     </html>

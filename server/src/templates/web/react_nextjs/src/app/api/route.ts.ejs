@@ -8,9 +8,9 @@ type Data = {
 
 export const GET = (): NextResponse<Data> => {
   return NextResponse.json({
-    title: "Hello, <%= data.author %>!",
+    title: "Hello, <%= data.author.name %>!",
     message:
-      "You chose the awesome stack: React + NextJS + <%= data.style %> + <%= data.stateManagement %> + <%= data.backend %>",
+      "You chose the awesome stack: React + NextJS + <%= data.stack.frontend.styling %> + <%= data.stack.frontend.stateManagement %> + <%= data.backend %>",
     info: "Have a nice coding!",
   });
 };

@@ -1,34 +1,34 @@
-<% if (data.stateManagement === "Context API") { -%>
+<% if (data.stack.frontend.stateManagement === "Context API") { -%>
 import { CounterContext } from "contexts/CounterContext";
 import { useContext } from "react";
 <% } -%>
-<% if (data.stateManagement === "Redux Toolkit") { -%>
+<% if (data.stack.frontend.stateManagement === "Redux Toolkit") { -%>
 import { useCounter } from "hooks/useCounter";
 <% } -%>
-<% if (data.stateManagement === "Zustand") { -%>
+<% if (data.stack.frontend.stateManagement === "Zustand") { -%>
 import { useCounterStore } from "store/useCounterStore";
 <% } -%>
 import { State } from "types/state";
 
 export const Greetings = (): JSX.Element => {
-<% if (data.stateManagement === "Context API") { -%>
+<% if (data.stack.frontend.stateManagement === "Context API") { -%>
   const counterStore: State.Counter = useContext(CounterContext);
 <% } -%>
-<% if (data.stateManagement === "Redux Toolkit") { -%>
+<% if (data.stack.frontend.stateManagement === "Redux Toolkit") { -%>
   const counterStore: State.Counter = useCounter();
 <% } -%>
-<% if (data.stateManagement === "Zustand") { -%>
+<% if (data.stack.frontend.stateManagement === "Zustand") { -%>
   const counterStore: State.Counter = useCounterStore();
 <% } -%>
 
   return (
     <>
       <h1 className="text-[32px] font-semibold text-center">
-        💫 Hello, <%= data.author %>! 💫
+        💫 Hello, <%= data.author.name %>! 💫
       </h1>
       <h2 className="text-2xl font-normal text-center">
         You chose the awesome stack: <br /> React + NextJS + TailwindCSS +
-        <%= data.stateManagement %> + <%= data.backend %>
+        <%= data.stack.frontend.stateManagement %> + <%= data.backend %>
       </h2>
       <h2 className="text-2xl font-normal text-center">
         🚀 Have a nice coding 🚀

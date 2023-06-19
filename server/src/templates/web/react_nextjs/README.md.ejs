@@ -1,14 +1,15 @@
 <div align="center">
-  <h1>🚀 <%= data.projectName %> 🚀</h1>
+  <h1>🚀 <%= data.project.name %> 🚀</h1>
 </div>
 
+<% if (data.author.language === "pt-BR") { -%>
 ## 📚 Sobre
 
-<!-- Uma breve descrição do seu projeto -->
+<!-- Uma breve descrição do seu projeto ... -->
 
 ## 🏗️ Desenvolvimento
 
-<!-- Detalhes sobre o desenvolvimento -->
+<!-- Detalhes sobre o desenvolvimento ... -->
 
 ## 🕹️ Possui as seguintes funcionalidades:
 
@@ -18,26 +19,45 @@
 
 ## 📝 Notas
 
-<!-- Notas sobre o projeto -->
-
-## 🔎 Demonstração
-
-<div align="center">
-  <img src=".github/demo.gif" alt="Application demo GIF">
-</div>
+<!-- Notas sobre o projeto ... -->
 
 ## 💻 Como acessar
 
-<!-- Onde a sua aplicação está hospedada? -->
+<!-- URL de onde sua aplicação está hospedada ... -->
 
 ## 🛠️ Tecnologias utilizadas
+<% } else { -%>
+## 📚 About
+
+<!-- A brief description of your project ... -->
+
+## 🏗️ Development
+
+<!-- Development details ... -->
+
+## 🕹️ It has the following features:
+
+- Feature 1
+- Feature 2
+- Feature 3
+
+## 📝 Notes
+
+<!-- Notes about the project ... -->
+
+## 💻 How to acess
+
+<!-- URL where your application is hosted ... -->
+
+## 🛠️ Technologies used
+<% } -%>
 
 <br />
 
-<div><% data.technologies.forEach((technology) => { %>
+<div><% data.project.technologies.forEach((technology) => { %>
   <img src="https://skillicons.dev/icons?i=<%= technology %>" width="64" /> &nbsp;<% }); %>
 </div>
 
 <br />
 
-<p align="center">✨ Made with 💙 by <a href="https://github.com/<%= data.githubUsername %>"><strong><%= data.author %></strong></a> ✨</p>
+<p align="center">✨ Made with 💙 by <a href="https://github.com/<%= data.author.githubUsername %>"><strong><%= data.author.name %></strong></a> ✨</p>
