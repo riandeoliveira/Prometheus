@@ -1,16 +1,17 @@
 import { Request, Response } from "express";
 import { TemplateRepository } from "../repositories/TemplateRepository";
+import { TemplateData } from "../schemas/template-schema";
 import { TemplateService } from "../services/TemplateService";
 
 class TemplateController {
   public generate = async (request: Request, response: Response) => {
-    const timestamp: number = Date.now();
+    const data: TemplateData = request.body;
 
-    const templateRepository: TemplateRepository = new TemplateRepository();
+    const templateRepository: TemplateRepository = new TemplateRepository(data);
 
     const templateService: TemplateService = new TemplateService(
-      "./src/templates/react_nextjs",
-      `./public/${timestamp}`,
+      "./src/templates/web/react_nextjs",
+      `./public/${Date.now()}`,
       templateRepository
     );
 

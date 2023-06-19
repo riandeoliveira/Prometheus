@@ -1,80 +1,35 @@
-interface ITemplateData {
-  author: string;
-  backend: "Firebase" | "NextJS API";
-  currentYear: number;
-  description: string;
-  email: string;
-  githubRepoName: string;
-  githubUsername: string;
-  keywords: string[];
-  language: "en" | "pt-BR";
-  lowerCaseProjectName: string;
-  projectName: string;
-  stateManagement: "Context API" | "Redux Toolkit" | "Zustand";
-  style: "CSS Modules" | "SASS Modules" | "Styled Components" | "TailwindCSS";
-  technologies: string[];
-}
+import { TemplateData } from "../schemas/template-schema";
 
 interface ITemplateRepository {
-  data: ITemplateData;
+  data: TemplateData;
   ignoredFiles: string[];
 }
 
 export class TemplateRepository implements ITemplateRepository {
-  public data: ITemplateData;
+  public data: TemplateData;
   public ignoredFiles: string[];
 
-  constructor() {
-    this.data = {
-      author: "Rian Oliveira",
-      backend: "Firebase",
-      currentYear: new Date().getFullYear(),
-      description: "Este é meu projeto.",
-      email: "riandiasdeoliveira2001@gmail.com",
-      githubRepoName: "BinanceAPP",
-      githubUsername: "riandeoliveira",
-      keywords: [
-        "context-api",
-        "css",
-        "firebase",
-        "javascript",
-        "nextjs",
-        "react",
-        "typescript",
-      ],
-      language: "pt-BR",
-      lowerCaseProjectName: "binance_app",
-      projectName: "BinanceAPP",
-      stateManagement: "Zustand",
-      style: "SASS Modules",
-      technologies: [
-        "css",
-        "firebase",
-        "html",
-        "js",
-        "markdown",
-        "next",
-        "react",
-        "ts",
-      ],
-    };
+  constructor(data: TemplateData) {
+    this.data = data;
     this.ignoredFiles = [];
 
     this.handleIgnoredFiles();
   }
 
   private handleIgnoredFiles = (): void => {
-    if (this.data.stateManagement !== "Context API") {
+    const { stateManagement, styling } = this.data.stack.frontend;
+
+    if (stateManagement !== "Context API") {
       this.ignoredFiles.push("CounterContext.tsx.ejs");
       this.ignoredFiles.push("UserContext.tsx.ejs");
     }
 
-    if (this.data.stateManagement !== "Zustand") {
+    if (stateManagement !== "Zustand") {
       this.ignoredFiles.push("useCounterStore.ts.ejs");
       this.ignoredFiles.push("useUserStore.ts.ejs");
     }
 
-    if (this.data.stateManagement !== "Redux Toolkit") {
+    if (stateManagement !== "Redux Toolkit") {
       this.ignoredFiles.push("redux.d.ts.ejs");
       this.ignoredFiles.push("StoreProvider.tsx.ejs");
       this.ignoredFiles.push("counterSlice.ts.ejs");
@@ -84,17 +39,17 @@ export class TemplateRepository implements ITemplateRepository {
       this.ignoredFiles.push("index.ts.ejs");
     }
 
-    if (this.data.backend !== "Firebase") {
-      this.ignoredFiles.push("env.d.ts.ejs");
-      this.ignoredFiles.push("firebase.ts.ejs");
-    }
+    // if (this.data.backend !== "Firebase") {
+    //   this.ignoredFiles.push("env.d.ts.ejs");
+    //   this.ignoredFiles.push("firebase.ts.ejs");
+    // }
 
-    if (this.data.style !== "CSS Modules") {
+    if (styling !== "CSS Modules") {
       this.ignoredFiles.push("styles.module.css.ejs");
       this.ignoredFiles.push("global.css.ejs");
     }
 
-    if (this.data.style !== "SASS Modules") {
+    if (styling !== "SASS Modules") {
       this.ignoredFiles.push(".stylelintrc.json.ejs");
       this.ignoredFiles.push("styles.module.scss.ejs");
       this.ignoredFiles.push("_animations.scss.ejs");
@@ -106,7 +61,7 @@ export class TemplateRepository implements ITemplateRepository {
       this.ignoredFiles.push("_index.scss.ejs");
     }
 
-    if (this.data.style !== "Styled Components") {
+    if (styling !== "Styled Components") {
       this.ignoredFiles.push("styles.ts.ejs");
       this.ignoredFiles.push("animations.ts.ejs");
       this.ignoredFiles.push("colors.ts.ejs");
@@ -119,14 +74,14 @@ export class TemplateRepository implements ITemplateRepository {
       this.ignoredFiles.push("registry.tsx.ejs");
     }
 
-    if (this.data.style !== "TailwindCSS") {
+    if (styling !== "TailwindCSS") {
       this.ignoredFiles.push("postcss.config.js.ejs");
       this.ignoredFiles.push("tailwind.config.js.ejs");
       this.ignoredFiles.push("globals.css.ejs");
       this.ignoredFiles.push("Greetings.tsx.ejs");
     }
 
-    if (this.data.style === "TailwindCSS") {
+    if (styling === "TailwindCSS") {
       this.ignoredFiles.push("index.tsx.ejs");
     }
   };
