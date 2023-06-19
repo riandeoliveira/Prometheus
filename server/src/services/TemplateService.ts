@@ -21,18 +21,23 @@ export class TemplateService {
   };
 
   public renderFileList = (): void => {
-    this.pathList.map((path) => {
-      const fileContent: string = fs.readFileSync(path, "utf-8");
+    try {
+      this.pathList.map((path) => {
+        const fileContent: string = fs.readFileSync(path, "utf-8");
 
-      const renderedContent: string = ejs.render(fileContent, {
-        data: this.templateRepository.data,
+        const renderedContent: string = ejs.render(fileContent, {
+          data: this.templateRepository.data,
+        });
+
+        const fileWithoutExtension: string = path.slice(0, -4);
+
+        fs.writeFileSync(fileWithoutExtension, renderedContent);
+        fs.unlinkSync(path);
       });
-
-      const fileWithoutExtension: string = path.slice(0, -4);
-
-      fs.writeFileSync(fileWithoutExtension, renderedContent);
-      fs.unlinkSync(path);
-    });
+    } catch (error: unknown) {
+      console.log("\nERROR! Cannot render file list\n");
+      console.log(error);
+    }
   };
 
   public setPathList = async (): Promise<void> => {
