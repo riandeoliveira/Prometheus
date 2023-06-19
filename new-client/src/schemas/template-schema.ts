@@ -1,0 +1,38 @@
+import z from "zod";
+
+export const templateSchema = z.object({
+  author: z.object({
+    name: z
+      .string()
+      .max(255, "Tamanho máximo excedido de 255 caracteres")
+      .nonempty("Campo obrigatório!"),
+    email: z
+      .string()
+      .email()
+      .max(255, "Tamanho máximo excedido de 255 caracteres")
+      .nonempty("Campo obrigatório!"),
+    githubUsername: z
+      .string()
+      .max(39, "Tamanho máximo excedido de 39 caracteres")
+      .nonempty("Campo obrigatório!"),
+    language: z.union([z.literal("en-US"), z.literal("pt-BR")]),
+  }),
+
+  project: z.object({
+    type: z.union([z.literal("frontend"), z.literal("backend")]),
+    framework: z.string().nonempty("Campo obrigatório!"),
+    name: z.string().nonempty("Campo obrigatório!"),
+    description: z.string().nonempty("Campo obrigatório!"),
+    keywords: z.array(z.string()),
+  }),
+
+  stack: z.object({
+    frontend: z.object({
+      styling: z.string(),
+      stateManagement: z.string(),
+    }),
+    backend: z.object({}),
+  }),
+});
+
+export type TemplateSchema = z.infer<typeof templateSchema>;
