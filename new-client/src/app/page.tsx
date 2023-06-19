@@ -1,242 +1,281 @@
 "use client";
 
-import { Autocomplete, Button, FormControlLabel, Radio, RadioGroup, TextField } from "@mui/material";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Autocomplete,
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+} from "@mui/material";
+import { formData } from "data/form-data";
 import type { NextPage } from "next";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { ProtectedRoute } from "routes/ProtectedRoute";
+import { templateSchema } from "schemas/template-schema";
 import styles from "./styles.module.scss";
 
 const Home: NextPage = (): JSX.Element => {
-  const [framework, setFramework] = useState<"frontend" | "backend">();
-  const [frontendFramework, setFrontendFramework] = useState("");
-  const [stateManagement, setStateManagement] = useState("");
-
-  const languages = [
-    { label: "en-US", value: "en-US" },
-    { label: "pt-BR", value: "pt-BR" },
-  ];
-
-  const { getValues, register, setValue, handleSubmit } = useForm({
+  const formMethods = useForm({
     defaultValues: {
       author: {
         name: "",
         email: "",
-        githubUsername: ""
+        githubUsername: "",
+        language: "en-US",
       },
       project: {
-        type: "",
+        type: "frontend",
+        framework: "",
         name: "",
         description: "",
-        keywords: [] as string[]
+        keywords: [] as string[],
       },
-      language: "",
-      framework: "",
-      style: "",
-      stateManagement: ""
-    }
+      stack: {
+        frontend: {
+          styling: "",
+          stateManagement: "",
+        },
+        backend: {},
+      },
+    },
+    resolver: zodResolver(templateSchema),
   });
 
-  const onSubmit = async () => {
-    // async request which may result error
-    try {
-      // await fetch()
-    } catch (e) {
-      // handle your error
-    }
-  };
+  const {
+    getValues,
+    register,
+    setValue,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = formMethods;
 
-  const onSendData = (): void => {
-    console.clear();
-    console.log(JSON.stringify(getValues(), true, 2));
+  const form = getValues();
 
-    handleSubmit(onSubmit);
+  const projectType = watch("project.type");
+  const projectFramework = watch("project.framework");
+
+  console.clear();
+  console.log(JSON.stringify(form, null, 2));
+
+  const submit = (): void => {
   };
 
   return (
     <ProtectedRoute>
-      <div className={styles.page}>
-        <h1 className={styles.title}>🏗️ Prometheus 🛠️</h1>
-        <h2 className={styles.subtitle}>A template generator...</h2>
-        <div className={styles.box}>
-          <TextField
-            type="text"
-            label="Nome do Autor"
-            fullWidth
-            {...register("author.name")}
-          />
-          <TextField
-            type="text"
-            label="Nome de Usuário do GitHub"
-            fullWidth
-            {...register("author.githubUsername")}
-          />
-          <TextField
-            type="email"
-            label="E-mail do Autor"
-            fullWidth
-            {...register("author.email")}
-          />
-          <TextField
-            type="text"
-            label="Nome do Projeto"
-            fullWidth
-            {...register("project.name")}
-          />
-          <TextField
-            type="text"
-            label="Descrição Breve do Projeto"
-            fullWidth
-            {...register("project.description")}
-          />
-          <Autocomplete
-            options={languages}
-            getOptionLabel={(option) => option.label}
-            renderInput={(params: any) => <TextField {...params} label="Idioma" />}
-            onChange={(_, option: any) => setValue("language", option.value)}
-            fullWidth
-          />
-          <Autocomplete
-            options={[]}
-            freeSolo
-            multiple
-            fullWidth
-            renderInput={(params: any) => <TextField {...params} label="Palavras-chaves" />}
-            onChange={(_, option) => {
-              const keywords = getValues().project.keywords;
-              const lastOption = option[option.length - 1];
+      <FormProvider {...formMethods}>
+        <div className={styles.page}>
+          <h1 className={styles.title}>🏗️ Prometheus 🛠️</h1>
+          <h2 className={styles.subtitle}>A template generator...</h2>
+          <form className={styles.form} onSubmit={handleSubmit(submit)}>
+            <TextField
+              type="text"
+              label="Nome do Autor"
+              fullWidth
+              error={Boolean(errors.author?.name)}
+              helperText={errors.author?.name?.message}
+              {...register("author.name")}
+            />
+            <TextField
+              type="text"
+              label="Nome de Usuário do GitHub"
+              fullWidth
+              error={Boolean(errors.author?.githubUsername)}
+              helperText={errors.author?.githubUsername?.message}
+              {...register("author.githubUsername")}
+            />
+            <TextField
+              type="email"
+              label="E-mail do Autor"
+              fullWidth
+              error={Boolean(errors.author?.email)}
+              helperText={errors.author?.email?.message}
+              {...register("author.email")}
+            />
+            <TextField
+              type="text"
+              label="Nome do Projeto"
+              fullWidth
+              error={Boolean(errors.project?.name)}
+              helperText={errors.project?.name?.message}
+              {...register("project.name")}
+            />
+            <TextField
+              type="text"
+              label="Descrição Breve do Projeto"
+              fullWidth
+              error={Boolean(errors.project?.description)}
+              helperText={errors.project?.description?.message}
+              {...register("project.description")}
+            />
+            <Autocomplete
+              options={formData.languages}
+              value={form.author.language}
+              getOptionLabel={(option) => option}
+              renderInput={(params: any) => (
+                <TextField
+                  {...params}
+                  label="Idioma"
+                  error={Boolean(errors.author?.language)}
+                  helperText={errors.author?.language?.message}
+                />
+              )}
+              fullWidth
+              onChange={(_, option) =>
+                setValue("author.language", option as string)
+              }
+            />
+            <Autocomplete
+              options={[]}
+              freeSolo
+              multiple
+              fullWidth
+              renderInput={(params: any) => (
+                <TextField {...params} label="Palavras-chaves" />
+              )}
+              onChange={(_, option) => {
+                const keywords = form.project.keywords;
+                const lastOption = option[option.length - 1];
 
-              setValue("project.keywords", [...keywords, lastOption]);
-            }}
-          />
-          <RadioGroup placeholder="jkadhfkja">
-            <FormControlLabel
-              value="frontend"
-              control={<Radio />}
-              label="Web (Front-End)"
-              onChange={() => {
-                setValue("project.type", "frontend");
-                setFramework("frontend");
+                setValue("project.keywords", [...keywords, lastOption]);
               }}
             />
-            <FormControlLabel
-              value="backend"
-              control={<Radio />}
-              label="API (Back-End)"
-              onChange={() => {
-                setValue("project.type", "backend");
-                setFramework("backend");
-              }}
-            />
-          </RadioGroup>
-          {
-            framework === "frontend" && (
+            <RadioGroup defaultValue="frontend">
+              <FormControlLabel
+                value="frontend"
+                control={<Radio />}
+                label="Web (Front-End)"
+                onChange={() => {
+                  setValue("project.type", "frontend");
+                }}
+              />
+              <FormControlLabel
+                value="backend"
+                control={<Radio />}
+                label="API (Back-End)"
+                onChange={() => {
+                  setValue("project.type", "backend");
+                }}
+              />
+            </RadioGroup>
+            {projectType === "frontend" && (
               <RadioGroup>
                 <FormControlLabel
                   value="angular"
                   control={<Radio />}
                   label="Angular"
-                  onChange={() => setValue("framework", "angular")}
+                  onChange={() => setValue("project.framework", "angular")}
                 />
                 <FormControlLabel
                   value="react_nextjs"
                   control={<Radio />}
                   label="React + NextJS"
                   onChange={() => {
-                    setValue("framework", "react_nextjs");
-                    setFrontendFramework("react_nextjs");
+                    setValue("project.framework", "react_nextjs");
                   }}
                 />
                 <FormControlLabel
                   value="svelte"
                   control={<Radio />}
                   label="Svelte"
-                  onChange={() => setValue("framework", "svelte")}
+                  onChange={() => setValue("project.framework", "svelte")}
                 />
                 <FormControlLabel
                   value="vuejs"
                   control={<Radio />}
                   label="VueJS"
-                  onChange={() => setValue("framework", "vuejs")}
+                  onChange={() => setValue("project.framework", "vuejs")}
                 />
               </RadioGroup>
-            )
-          }
-          {
-            frontendFramework === "react_nextjs" && (
+            )}
+            {projectFramework === "react_nextjs" && (
               <RadioGroup>
                 <FormControlLabel
                   value="css_modules"
                   control={<Radio />}
                   label="CSS Modules"
-                  onChange={() => setValue("style", "css_modules")}
+                  onChange={() =>
+                    setValue("stack.frontend.styling", "css_modules")
+                  }
                 />
                 <FormControlLabel
                   value="sass_modules"
                   control={<Radio />}
                   label="SASS Modules"
-                  onChange={() => setValue("style", "sass_modules")}
+                  onChange={() =>
+                    setValue("stack.frontend.styling", "sass_modules")
+                  }
                 />
                 <FormControlLabel
                   value="styled_components"
                   control={<Radio />}
                   label="Styled Components"
-                  onChange={() => setValue("style", "styled_components")}
+                  onChange={() =>
+                    setValue("stack.frontend.styling", "styled_components")
+                  }
                 />
                 <FormControlLabel
                   value="tailwindcss"
                   control={<Radio />}
                   label="TailwindCSS"
-                  onChange={() => setValue("style", "tailwindcss")}
+                  onChange={() =>
+                    setValue("stack.frontend.styling", "tailwindcss")
+                  }
                 />
               </RadioGroup>
-            )
-          }
-          {
-            frontendFramework === "react_nextjs" && (
+            )}
+            {projectFramework === "react_nextjs" && (
               <RadioGroup>
                 <FormControlLabel
                   value="context_api"
                   control={<Radio />}
                   label="Context API"
-                  onChange={() => setValue("stateManagement", "context_api")}
+                  onChange={() =>
+                    setValue("stack.frontend.stateManagement", "context_api")
+                  }
                 />
                 <FormControlLabel
                   value="redux_toolkit"
                   control={<Radio />}
                   label="Redux Toolkit"
-                  onChange={() => setValue("stateManagement", "redux_toolkit")}
+                  onChange={() =>
+                    setValue("stack.frontend.stateManagement", "redux_toolkit")
+                  }
                 />
                 <FormControlLabel
                   value="zustand"
                   control={<Radio />}
                   label="Zustand"
-                  onChange={() => setValue("stateManagement", "zustand")}
+                  onChange={() =>
+                    setValue("stack.frontend.stateManagement", "zustand")
+                  }
                 />
               </RadioGroup>
-            )
-          }
-          {
-            framework === "backend" && (
+            )}
+            {projectType === "backend" && (
               <RadioGroup>
                 <FormControlLabel
                   value="laravel"
                   control={<Radio />}
                   label="Laravel"
-                  onChange={() => setValue("framework", "laravel")}
+                  onChange={() => setValue("project.framework", "laravel")}
                 />
                 <FormControlLabel
                   value="aspnet"
                   control={<Radio />}
                   label="ASP.NET"
-                  onChange={() => setValue("framework", "aspnet")}
+                  onChange={() => setValue("project.framework", "aspnet")}
                 />
               </RadioGroup>
-            )
-          }
-          <Button variant="contained" onClick={onSendData} fullWidth>Enviar</Button>
+            )}
+            <Button type="submit" variant="contained" fullWidth>
+              Enviar
+            </Button>
+          </form>
         </div>
-      </div>
+      </FormProvider>
     </ProtectedRoute>
   );
 };
