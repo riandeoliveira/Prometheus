@@ -1,8 +1,9 @@
 import cors from "cors";
-import express, { Express } from "express";
-import { templateController } from "./controllers/TemplateController";
+import express, { Express, Request, Response } from "express";
 import { validateSchema } from "./middlewares/validate-schema";
-import { templateSchema } from "./schemas/template-schema";
+import { TemplateData, templateSchema } from "./schemas/template-schema";
+import { TemplateService } from "./services/TemplateService";
+import { GenerateTemplateUseCase } from "./use-cases/GenerateTemplateUseCase";
 
 const app: Express = express();
 
@@ -12,7 +13,19 @@ app.use(express.json());
 app.post(
   "/api/generate",
   validateSchema(templateSchema),
-  templateController.generate
+  async (request: Request, response: Response) => {
+    const templateData: TemplateData = request.body;
+
+    const templateService = new TemplateService(templateData);
+
+    const generateTemplateUseCase = new GenerateTemplateUseCase(
+      templateService
+    );
+
+    const template: string = await generateTemplateUseCase.execute();
+
+    return response.status(200).download(template);
+  }
 );
 
 app.get("/", (req, res) => {

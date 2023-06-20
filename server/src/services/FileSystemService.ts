@@ -1,23 +1,46 @@
+import fsSync from "fs";
+import fs from "fs/promises";
+import { glob } from "glob";
+import { Repository } from "../repositories/Repository";
 import { TemplateData } from "../schemas/template-schema";
 
-interface ITemplateRepository {
-  data: TemplateData;
-  ignoredFiles: string[];
-}
-
-export class TemplateRepository implements ITemplateRepository {
-  public data: TemplateData;
-  public ignoredFiles: string[];
-
-  constructor(data: TemplateData) {
-    this.data = data;
-    this.ignoredFiles = [];
-
-    this.handleIgnoredFiles();
+export abstract class FileSystemService extends Repository {
+  constructor(template: TemplateData) {
+    super(template);
   }
 
-  private handleIgnoredFiles = (): void => {
-    const { stateManagement, styling } = this.data.stack.frontend;
+  public async copyTemplatesToPublicDirectory(): Promise<void> {
+    try {
+      await fs.cp(this.source, this.target, { recursive: true });
+    } catch (error: unknown) {
+      console.log("\nERROR! Cannot copy templates to public directory\n");
+      console.log(error);
+    }
+  }
+
+  public async deleteAllEmptyDirectories(): Promise<void> {
+    const pathList: string[] = await glob(`${this.target}/**`, {
+      dot: true,
+    });
+
+    try {
+      for (const path of pathList) {
+        fsSync.stat(path, (_, stats) => {
+          if (stats?.isDirectory()) {
+            const files: string[] = fsSync.readdirSync(path);
+
+            if (files.length === 0) fsSync.rmdirSync(path);
+          }
+        });
+      }
+    } catch (error: unknown) {
+      console.log("\nERROR! Cannot remove empty directories\n");
+      console.log(error);
+    }
+  }
+
+  public handleIgnoredFiles(): void {
+    const { stateManagement, styling } = this.template.stack.frontend;
 
     if (stateManagement !== "Context API") {
       this.ignoredFiles.push("CounterContext.tsx.ejs");
@@ -84,5 +107,5 @@ export class TemplateRepository implements ITemplateRepository {
     if (styling === "TailwindCSS") {
       this.ignoredFiles.push("index.tsx.ejs");
     }
-  };
+  }
 }
