@@ -1,6 +1,7 @@
 import archiver, { Archiver } from "archiver";
 import ejs from "ejs";
 import fsSync, { WriteStream } from "fs";
+import fs from "fs/promises";
 import { glob } from "glob";
 import { basename } from "path";
 import { TemplateData } from "../schemas/template-schema";
@@ -24,7 +25,7 @@ export class TemplateService extends FileSystemService {
         const isNotIgnoredFile: boolean = !ignoredFiles.includes(fileName);
 
         if (isNotIgnoredFile) this.pathList.push(path);
-        else fsSync.unlinkSync(path);
+        else await fs.unlink(path);
       }
     } catch (error) {
       console.log("\nERROR! Cannot create path list\n");
@@ -32,10 +33,10 @@ export class TemplateService extends FileSystemService {
     }
   }
 
-  public renderTemplates(): void {
+  public async renderTemplates(): Promise<void> {
     try {
       for (const path of this.pathList) {
-        const fileContent: string = fsSync.readFileSync(path, "utf-8");
+        const fileContent: string = await fs.readFile(path, "utf-8");
 
         const renderedContent: string = ejs.render(fileContent, {
           data: this.template,
@@ -43,8 +44,8 @@ export class TemplateService extends FileSystemService {
 
         const fileWithoutExtension: string = path.slice(0, -4);
 
-        fsSync.writeFileSync(fileWithoutExtension, renderedContent);
-        fsSync.unlinkSync(path);
+        await fs.writeFile(fileWithoutExtension, renderedContent);
+        await fs.unlink(path);
       }
     } catch (error: unknown) {
       console.log("\nERROR! Cannot render templates\n");
