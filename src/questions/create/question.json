@@ -1,7 +1,0 @@
-[
-  {
-    "type": "input",
-    "name": "component_name",
-    "message": "Component name:"
-  }
-]
