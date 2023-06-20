@@ -9,11 +9,13 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
+import { AxiosResponse } from "axios";
 import formData from "data/form-data.json";
 import type { NextPage } from "next";
 import { FormProvider, useForm } from "react-hook-form";
 import { ProtectedRoute } from "routes/ProtectedRoute";
 import { templateSchema } from "schemas/template-schema";
+import { api } from "services/api";
 import styles from "./styles.module.scss";
 
 const Home: NextPage = (): JSX.Element => {
@@ -58,10 +60,26 @@ const Home: NextPage = (): JSX.Element => {
   const projectType = watch("project.type");
   const projectFramework = watch("project.framework");
 
-  console.clear();
-  console.log(JSON.stringify(form, null, 2));
+  const submit = async (): Promise<void> => {
+    try {
+      const response: AxiosResponse<Blob> = await api.post("/generate", form, {
+        responseType: "blob",
+      });
 
-  const submit = (): void => { };
+      const blob = new Blob([response.data], { type: "application/zip" });
+
+      const downloadUrl = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = "template.zip";
+      link.click();
+
+      console.log(downloadUrl);
+    } catch (error: unknown) {
+      console.log(error);
+    }
+  };
 
   return (
     <ProtectedRoute>
@@ -208,35 +226,35 @@ const Home: NextPage = (): JSX.Element => {
             {projectFramework === "react_nextjs" && (
               <RadioGroup>
                 <FormControlLabel
-                  value="css_modules"
+                  value="CSS Modules"
                   control={<Radio />}
                   label="CSS Modules"
                   onChange={() =>
-                    setValue("stack.frontend.styling", "css_modules")
+                    setValue("stack.frontend.styling", "CSS Modules")
                   }
                 />
                 <FormControlLabel
-                  value="sass_modules"
+                  value="SASS Modules"
                   control={<Radio />}
                   label="SASS Modules"
                   onChange={() =>
-                    setValue("stack.frontend.styling", "sass_modules")
+                    setValue("stack.frontend.styling", "SASS Modules")
                   }
                 />
                 <FormControlLabel
-                  value="styled_components"
+                  value="Styled Components"
                   control={<Radio />}
                   label="Styled Components"
                   onChange={() =>
-                    setValue("stack.frontend.styling", "styled_components")
+                    setValue("stack.frontend.styling", "Styled Components")
                   }
                 />
                 <FormControlLabel
-                  value="tailwindcss"
+                  value="TailwindCSS"
                   control={<Radio />}
                   label="TailwindCSS"
                   onChange={() =>
-                    setValue("stack.frontend.styling", "tailwindcss")
+                    setValue("stack.frontend.styling", "TailwindCSS")
                   }
                 />
               </RadioGroup>
@@ -244,27 +262,27 @@ const Home: NextPage = (): JSX.Element => {
             {projectFramework === "react_nextjs" && (
               <RadioGroup>
                 <FormControlLabel
-                  value="context_api"
+                  value="Context API"
                   control={<Radio />}
                   label="Context API"
                   onChange={() =>
-                    setValue("stack.frontend.stateManagement", "context_api")
+                    setValue("stack.frontend.stateManagement", "Context API")
                   }
                 />
                 <FormControlLabel
-                  value="redux_toolkit"
+                  value="Redux Toolkit"
                   control={<Radio />}
                   label="Redux Toolkit"
                   onChange={() =>
-                    setValue("stack.frontend.stateManagement", "redux_toolkit")
+                    setValue("stack.frontend.stateManagement", "Redux Toolkit")
                   }
                 />
                 <FormControlLabel
-                  value="zustand"
+                  value="Zustand"
                   control={<Radio />}
                   label="Zustand"
                   onChange={() =>
-                    setValue("stack.frontend.stateManagement", "zustand")
+                    setValue("stack.frontend.stateManagement", "Zustand")
                   }
                 />
               </RadioGroup>
