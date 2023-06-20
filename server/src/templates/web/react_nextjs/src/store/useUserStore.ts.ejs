@@ -35,7 +35,7 @@ export const useUserStore = create<State.User>((set, get): State.User => {
       });
     },
 
-    async delete(): Promise<void> {
+    async deletes(): Promise<void> {
       try {
         await deleteDoc(doc(db, "users", auth.currentUser?.uid as string));
 
