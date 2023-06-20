@@ -15,14 +15,15 @@ export const templateSchema = z.object({
       .string()
       .max(39, "Tamanho máximo excedido de 39 caracteres")
       .nonempty("Campo obrigatório!"),
-    language: z.union([z.literal("en-US"), z.literal("pt-BR")]),
+    language: z.string(),
   }),
 
   project: z.object({
-    type: z.union([z.literal("frontend"), z.literal("backend")]),
+    type: z.union([z.literal("web"), z.literal("api")]),
     framework: z.string().nonempty("Campo obrigatório!"),
     name: z.string().nonempty("Campo obrigatório!"),
     description: z.string().nonempty("Campo obrigatório!"),
+    technologies: z.array(z.string()),
     keywords: z.array(z.string()),
   }),
 

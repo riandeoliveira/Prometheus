@@ -9,7 +9,7 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import { formData } from "data/form-data";
+import formData from "data/form-data.json";
 import type { NextPage } from "next";
 import { FormProvider, useForm } from "react-hook-form";
 import { ProtectedRoute } from "routes/ProtectedRoute";
@@ -26,10 +26,11 @@ const Home: NextPage = (): JSX.Element => {
         language: "en-US",
       },
       project: {
-        type: "frontend",
+        type: "web",
         framework: "",
         name: "",
         description: "",
+        technologies: [] as string[],
         keywords: [] as string[],
       },
       stack: {
@@ -60,8 +61,7 @@ const Home: NextPage = (): JSX.Element => {
   console.clear();
   console.log(JSON.stringify(form, null, 2));
 
-  const submit = (): void => {
-  };
+  const submit = (): void => { };
 
   return (
     <ProtectedRoute>
@@ -94,22 +94,6 @@ const Home: NextPage = (): JSX.Element => {
               helperText={errors.author?.email?.message}
               {...register("author.email")}
             />
-            <TextField
-              type="text"
-              label="Nome do Projeto"
-              fullWidth
-              error={Boolean(errors.project?.name)}
-              helperText={errors.project?.name?.message}
-              {...register("project.name")}
-            />
-            <TextField
-              type="text"
-              label="Descrição Breve do Projeto"
-              fullWidth
-              error={Boolean(errors.project?.description)}
-              helperText={errors.project?.description?.message}
-              {...register("project.description")}
-            />
             <Autocomplete
               options={formData.languages}
               value={form.author.language}
@@ -127,6 +111,37 @@ const Home: NextPage = (): JSX.Element => {
                 setValue("author.language", option as string)
               }
             />
+            <TextField
+              type="text"
+              label="Nome do Projeto"
+              fullWidth
+              error={Boolean(errors.project?.name)}
+              helperText={errors.project?.name?.message}
+              {...register("project.name")}
+            />
+            <TextField
+              type="text"
+              label="Descrição Breve do Projeto"
+              fullWidth
+              error={Boolean(errors.project?.description)}
+              helperText={errors.project?.description?.message}
+              {...register("project.description")}
+            />
+            <Autocomplete
+              options={formData.technologies}
+              freeSolo
+              multiple
+              fullWidth
+              renderInput={(params: any) => (
+                <TextField {...params} label="Tecnologias utilizadas" />
+              )}
+              onChange={(_, option) => {
+                const technologies: string[] = form.project.technologies;
+                const lastOption: string = option[option.length - 1];
+
+                setValue("project.technologies", [...technologies, lastOption]);
+              }}
+            />
             <Autocomplete
               options={[]}
               freeSolo
@@ -136,8 +151,8 @@ const Home: NextPage = (): JSX.Element => {
                 <TextField {...params} label="Palavras-chaves" />
               )}
               onChange={(_, option) => {
-                const keywords = form.project.keywords;
-                const lastOption = option[option.length - 1];
+                const keywords: string[] = form.project.keywords;
+                const lastOption: string = option[option.length - 1];
 
                 setValue("project.keywords", [...keywords, lastOption]);
               }}
@@ -148,7 +163,7 @@ const Home: NextPage = (): JSX.Element => {
                 control={<Radio />}
                 label="Web (Front-End)"
                 onChange={() => {
-                  setValue("project.type", "frontend");
+                  setValue("project.type", "web");
                 }}
               />
               <FormControlLabel
@@ -156,11 +171,11 @@ const Home: NextPage = (): JSX.Element => {
                 control={<Radio />}
                 label="API (Back-End)"
                 onChange={() => {
-                  setValue("project.type", "backend");
+                  setValue("project.type", "api");
                 }}
               />
             </RadioGroup>
-            {projectType === "frontend" && (
+            {projectType === "web" && (
               <RadioGroup>
                 <FormControlLabel
                   value="angular"
@@ -254,7 +269,7 @@ const Home: NextPage = (): JSX.Element => {
                 />
               </RadioGroup>
             )}
-            {projectType === "backend" && (
+            {projectType === "api" && (
               <RadioGroup>
                 <FormControlLabel
                   value="laravel"
