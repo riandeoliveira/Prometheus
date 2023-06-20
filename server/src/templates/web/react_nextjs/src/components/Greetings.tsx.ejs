@@ -1,0 +1,45 @@
+<% if (data.stack.frontend.stateManagement === "Context API") { -%>
+import { CounterContext } from "contexts/CounterContext";
+import { useContext } from "react";
+<% } -%>
+<% if (data.stack.frontend.stateManagement === "Redux Toolkit") { -%>
+import { useCounter } from "hooks/useCounter";
+<% } -%>
+<% if (data.stack.frontend.stateManagement === "Zustand") { -%>
+import { useCounterStore } from "store/useCounterStore";
+<% } -%>
+import { State } from "types/state";
+
+export const Greetings = (): JSX.Element => {
+<% if (data.stack.frontend.stateManagement === "Context API") { -%>
+  const counterStore: State.Counter = useContext(CounterContext);
+<% } -%>
+<% if (data.stack.frontend.stateManagement === "Redux Toolkit") { -%>
+  const counterStore: State.Counter = useCounter();
+<% } -%>
+<% if (data.stack.frontend.stateManagement === "Zustand") { -%>
+  const counterStore: State.Counter = useCounterStore();
+<% } -%>
+
+  return (
+    <>
+      <h1 className="text-[32px] font-semibold text-center">
+        💫 Hello, <%= data.author.name %>! 💫
+      </h1>
+      <h2 className="text-2xl font-normal text-center">
+        You chose the awesome stack: <br /> React + NextJS + TailwindCSS +
+        <%= data.stack.frontend.stateManagement %> + <%= data.backend %>
+      </h2>
+      <h2 className="text-2xl font-normal text-center">
+        🚀 Have a nice coding 🚀
+      </h2>
+      <button
+        type="button"
+        onClick={counterStore.increment}
+        className="bg-primary-500 rounded-md text-white cursor-pointer font-medium p-2 animated-btn"
+      >
+        Click me! {counterStore.value}
+      </button>
+    </>
+  );
+};
