@@ -26,9 +26,8 @@ app.post("/api/generate", async (request: Request, response: Response) => {
 
 app.get("/", (req, res) => {
   console.log("alkdhkjlasd");
-  console.log("Filesystem contents:", fs.readdirSync("."));
 
-  res.json({ message: "hello" });
+  res.json({ fileSystem: fs.readdirSync(".") });
 });
 
 app.listen(process.env.PORT || 8000, () => {
