@@ -4,12 +4,14 @@
   "main": "src/main.ts",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run copy:templates && tsc",
+    "copy:templates": "cpy ./src/templates dist",
     "dev": "ts-node-dev src/main.ts"
   },
   "dependencies": {
     "archiver": "^5.3.1",
     "cors": "^2.8.5",
+    "cpy-cli": "^4.2.0",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "glob": "^10.2.7",
