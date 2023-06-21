@@ -27,7 +27,7 @@ app.post("/api/generate", async (request: Request, response: Response) => {
 app.get("/", (req, res) => {
   console.log("alkdhkjlasd");
 
-  res.json({ fileSystem: fs.readdirSync("./server") });
+  res.json({ fileSystem: fs.readdirSync("./server/src") });
 });
 
 app.listen(process.env.PORT || 8000, () => {
