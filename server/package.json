@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run copy:templates && tsc",
-    "copy:templates": "cpy './src/templates/**' './dist/templates'",
+    "copy:templates": "cpy './src/templates/' './dist/'",
     "dev": "ts-node-dev src/main.ts"
   },
   "dependencies": {
