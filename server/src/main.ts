@@ -1,5 +1,6 @@
 import cors from "cors";
 import express, { Express, Request, Response } from "express";
+import fs from "fs";
 import { TemplateData } from "./schemas/template-schema";
 import { TemplateService } from "./services/TemplateService";
 import { GenerateTemplateUseCase } from "./use-cases/GenerateTemplateUseCase";
@@ -25,6 +26,7 @@ app.post("/api/generate", async (request: Request, response: Response) => {
 
 app.get("/", (req, res) => {
   console.log("alkdhkjlasd");
+  console.log("Filesystem contents:", fs.readdirSync("."));
 
   res.json({ message: "hello" });
 });
