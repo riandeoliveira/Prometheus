@@ -3,7 +3,7 @@ import { TemplateService } from "../services/TemplateService";
 export class GenerateTemplateUseCase {
   constructor(private readonly templateService: TemplateService) {}
 
-  public async execute(): Promise<string> {
+  public async execute(): Promise<any> {
     try {
       this.templateService.handleIgnoredFiles();
 
@@ -19,7 +19,7 @@ export class GenerateTemplateUseCase {
       console.log("\nERROR! Cannot generate template\n");
       console.log(error);
 
-      return `${error}`;
+      return error;
     }
   }
 }
