@@ -9,13 +9,12 @@ import {
   RadioGroup,
   TextField,
 } from "@mui/material";
-import { AxiosResponse } from "axios";
 import formData from "data/form-data.json";
 import type { NextPage } from "next";
+import { FormEvent } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { ProtectedRoute } from "routes/ProtectedRoute";
 import { templateSchema } from "schemas/template-schema";
-import { api } from "services/api";
 import styles from "./styles.module.scss";
 
 const Home: NextPage = (): JSX.Element => {
@@ -50,7 +49,6 @@ const Home: NextPage = (): JSX.Element => {
     getValues,
     register,
     setValue,
-    handleSubmit,
     watch,
     formState: { errors },
   } = formMethods;
@@ -60,25 +58,51 @@ const Home: NextPage = (): JSX.Element => {
   const projectType = watch("project.type");
   const projectFramework = watch("project.framework");
 
-  const submit = async (): Promise<void> => {
-    try {
-      const response: AxiosResponse<Blob> = await api.post("/generate", form, {
-        responseType: "blob",
-      });
+  // const submit = async (): Promise<void> => {
+  //   try {
+  //     const response: AxiosResponse<Blob> = await api.post("/generate", form, {
+  //       responseType: "blob",
+  //     });
 
-      const blob = new Blob([response.data], { type: "application/zip" });
+  //     const blob = new Blob([response.data], { type: "application/zip" });
 
-      const downloadUrl = URL.createObjectURL(blob);
+  //     const downloadUrl = URL.createObjectURL(blob);
 
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = "template.zip";
-      link.click();
+  //     const link = document.createElement("a");
+  //     link.href = downloadUrl;
+  //     link.download = "template.zip";
+  //     link.click();
 
-      console.log(downloadUrl);
-    } catch (error: unknown) {
-      console.log(error);
-    }
+  //     console.log(downloadUrl);
+  //   } catch (error: unknown) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const sla = {
+    teste: "jksdahdfkjsd",
+  };
+
+  const testSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      body: JSON.stringify(sla),
+    });
+
+    const blob = new Blob([response as any], { type: "application/zip" });
+
+    const downloadUrl = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = "template.zip";
+    link.click();
+
+    console.log(downloadUrl);
+
+    console.log(response);
   };
 
   return (
@@ -87,7 +111,7 @@ const Home: NextPage = (): JSX.Element => {
         <div className={styles.page}>
           <h1 className={styles.title}>🏗️ Prometheus 🛠️</h1>
           <h2 className={styles.subtitle}>A template generator...</h2>
-          <form className={styles.form} onSubmit={handleSubmit(submit)}>
+          <form className={styles.form} onSubmit={testSubmit}>
             <TextField
               type="text"
               label="Nome do Autor"

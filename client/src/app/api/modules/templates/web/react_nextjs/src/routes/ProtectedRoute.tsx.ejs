@@ -1,0 +1,64 @@
+<% if (data.stack.frontend.stateManagement === "Context API") { -%>
+// import { UserContext } from "contexts/UserContext";
+import { useContext, useEffect } from "react";
+// import type { State } from "types/state";
+
+type ProtectedRouteProps = {
+  children: JSX.Element;
+};
+
+export const ProtectedRoute = ({
+  children,
+}: ProtectedRouteProps): JSX.Element => {
+  // const userStore: State.User = useContext(UserContext);
+
+  useEffect(() => {
+    // userStore.verifyAuth();
+  }, []);
+
+  return <>{children}</>;
+};
+<% } -%>
+<% if (data.stack.frontend.stateManagement === "Redux Toolkit") { -%>
+// import { useUser } from "hooks/useUser";
+import { useEffect } from "react";
+// import { State } from "types/state";
+
+type ProtectedRouteProps = {
+  children: JSX.Element;
+};
+
+export const ProtectedRoute = ({
+  children,
+}: ProtectedRouteProps): JSX.Element => {
+  // const userStore: State.User = useUser();
+
+  useEffect(() => {
+    // userStore.verifyAuth();
+  }, []);
+
+  return <>{children}</>;
+};
+
+<% } -%>
+<% if (data.stack.frontend.stateManagement === "Zustand") { -%>
+import { useEffect } from "react";
+// import { useUserStore } from "store/useUserStore";
+// import type { State } from "types/state";
+
+type ProtectedRouteProps = {
+  children: JSX.Element;
+};
+
+export const ProtectedRoute = ({
+  children,
+}: ProtectedRouteProps): JSX.Element => {
+  // const userStore: State.User = useUserStore();
+
+  useEffect(() => {
+    // userStore.verifyAuth();
+  }, []);
+
+  return <>{children}</>;
+};
+<% } -%>

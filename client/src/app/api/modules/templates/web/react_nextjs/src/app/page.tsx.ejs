@@ -1,0 +1,38 @@
+"use client";
+
+import { Greetings } from "components/Greetings";
+import type { NextPage } from "next";
+import { ProtectedRoute } from "routes/ProtectedRoute";
+<% if (data.stack.frontend.styling === "CSS Modules") { -%>
+import styles from "./styles.module.css";
+<% } -%>
+<% if (data.stack.frontend.styling === "SASS Modules") { -%>
+import styles from "./styles.module.scss";
+<% } -%>
+<% if (data.stack.frontend.styling === "Styled Components") { -%>
+import * as S from "./styles";
+<% } -%>
+
+const Home: NextPage = (): JSX.Element => {
+  return (
+    <ProtectedRoute>
+<% if (data.stack.frontend.styling === "CSS Modules" || data.stack.frontend.styling === "SASS Modules") { -%>
+      <div className={styles.box}>
+        <Greetings />
+      </div>
+<% } -%>
+<% if (data.stack.frontend.styling === "Styled Components") { -%>
+      <S.Box>
+        <Greetings />
+      </S.Box>
+<% } -%>
+<% if (data.stack.frontend.styling === "TailwindCSS") { -%>
+      <div className="flex items-center flex-col gap-4 justify-center min-h-screen">
+        <Greetings />
+      </div>
+<% } -%>
+    </ProtectedRoute>
+  );
+};
+
+export default Home;

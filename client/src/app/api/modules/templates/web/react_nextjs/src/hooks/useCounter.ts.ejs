@@ -1,0 +1,19 @@
+import { useAppDispatch, useAppSelector } from "store";
+import { increment as incrementAction } from "store/counterSlice";
+import { State } from "types/state";
+
+export const useCounter = (): State.Counter => {
+  const counter = useAppSelector((state) => state.counterReducer);
+  const dispatch = useAppDispatch();
+
+  const increment = (): void => {
+    dispatch(incrementAction());
+  };
+
+  const counterStore: State.Counter = {
+    value: counter.value,
+    increment
+  };
+
+  return counterStore;
+};

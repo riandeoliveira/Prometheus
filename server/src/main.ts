@@ -23,7 +23,7 @@ app.post("/api/generate", async (request: Request, response: Response) => {
 
   return response.status(200).download(template);
 });
-
+  
 app.get("/", (req, res) => {
   console.log("alkdhkjlasd");
 
